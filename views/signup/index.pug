@@ -1,0 +1,15 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title Sign Up - Roger Esteve
+    body
+        form#newuser(action="/api/adduser", method='post')
+            Span Username
+            input#username(type='text', name='username')
+
+            Span Password
+            input#username(type='password', name='pass')
+            
+            button#sub(type='submit') Create
+            p Be sure to not put real passwords here, as they won't be securely stored.
