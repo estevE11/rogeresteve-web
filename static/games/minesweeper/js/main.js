@@ -1,14 +1,21 @@
+console.log(user_data);
+
 var canvas, ctx,
 width = 900, height = 600,
 cell_w = 35, board_w = 16, board_h = 16,
 bombs = 40,
 
 clicks = 0,
+cleared_cells = 0,
 
 img_floor = new Image(),
 img_cover = new Image(),
 img_bomb = new Image(),
 img_flag = new Image(),
+
+start_time = 0,
+curr_time = 0,
+game_on = false,
 
 board = {
     bombs: null,
@@ -90,6 +97,10 @@ board = {
                 if(this.render_bombs && this.bombs[x][y] == 1) ctx.drawImage(img_bomb, x*cell_w, y*cell_w, cell_w, cell_w);                    
             }
         }
+        ctx.fillStyle = 'black';
+        ctx.font = '30px Arial';
+        ctx.fillText('Time: ' + time_to_text(milis_to_time(curr_time)), 600, 50);
+        ctx.fillText(user_data.username, 600, 80);
     },
 
     cell_selected: function(x, y, btn) {
@@ -97,6 +108,8 @@ board = {
         if(btn == 0 && clicks == 0 && this.flags[x][y] == 0) {
             this.place_bombs(bombs, x, y);
             this.calc_neighbours();
+            game_on = true;
+            start_time = (new Date).getTime();
         }
         console.log(x);
         console.log(y);
@@ -104,7 +117,7 @@ board = {
             this.flags[x][y] = this.flags[x][y] == 1 ? 0 : 1;
         } 
         if(this.bombs[x][y] == 1 && this.flags[x][y] == 0) {
-            end_game();
+            end_game(false);
             return;
         }
         if(btn == 0 && this.flags[x][y] == 0) {
@@ -112,12 +125,15 @@ board = {
             this.open_cell(x, y);
         }
         else if(btn == 1) {}
-
+        if(cleared_cells == board_w*board_h - bombs) {
+            end_game(trueM);
+        }
     },
 
     open_cell: function(x, y) {
         console.log('clearing (' +  x +  ', '  + y + ') n:' + this.neigbours[x][y]);
         this.covers[x][y] = 1;
+        cleared_cells++;
         if(this.neigbours[x][y] > 0) {
             return;
         }
@@ -135,6 +151,7 @@ board = {
                         if((a != x || b != y) && (a >= 0 && a < board_w && b >= 0 && b < board_h)) {
                             if(this.covers[a][b] == 0) {
                                 this.covers[a][b] = 1;
+                                cleared_cells++;
                                 this.flags[a][b] = 0;
                                 tiles_to_clear.push([a, b]);
                             }
@@ -178,7 +195,9 @@ function game_loop() {
 }
 
 function update() {
-
+    if(game_on) {
+        curr_time = (new Date).getTime() - start_time;
+    }
 }
 
 function render() {
@@ -187,8 +206,9 @@ function render() {
     board.render();
 }
 
-function end_game()  {
-    board.render_bombs = true;
+function end_game(win)  {
+    if(!win) board.render_bombs = true;
+    game_on = false;
 }
 
 function mouse_down(e) {
@@ -206,6 +226,27 @@ window.onload = function() {
         }
     });
 };
+
+function milis_to_time(s) {
+    let time = new Array(3);
+    
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var secs = s % 60;
+    s = (s - secs) / 60;
+    var mins = s % 60;
+    
+    time[0] = ms;
+    time[1] = secs;
+    time[2] = mins;
+
+    return time;
+    
+}
+
+function time_to_text(time) {
+    return (time[2] < 10 ? "0" + time[2] : time[2]) + ":" + (time[1] < 10 ? "0" + time[1] : time[1]) + ":" + (time[0] < 10 ? "0" + time[0] : time[0]);
+}
 
 function windowToCanvas(canvas, x, y) {
     var bbox = canvas.getBoundingClientRect();

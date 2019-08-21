@@ -1,0 +1,20 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title Roger Esteve - Games Hub
+    body
+        .profile
+            span#username #{user_data.username}
+
+        .games
+            .games#tetris
+                p TETRIS - Rank: <span id="tetris rank">1</span> <a href="/games/tetris">Play</a>
+            .games#minesweeper
+                p MINESWEEPER - Rank: <span id="minesweeper-rank">1</span> <a href="/games/minesweeper">Play</a>
+            .games#onlinetest
+                p ONLINE TEST <a href="/games/onlinetest">Play</a>
+            .games#tictactoe
+                p TIC TAC TOE <a href="/games/tictactoe">Play</a>
+
+        form#logout(action='/api/logout' method='post')
+            button Log Out

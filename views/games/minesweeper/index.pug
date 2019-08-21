@@ -3,5 +3,7 @@ html(lang='en')
     head
         meta(charset='utf-8')
         title Roger Esteve - Minesweeper
-        script(src='js/main.js')
+        script.
+            let user_data = !{JSON.stringify(user_data)};
+        script(src='js/main.js').
     body

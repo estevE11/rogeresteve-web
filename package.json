@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "node app.js",
-    "start": "node app.js"
+    "start": "node app.js 80"
   },
   "author": "Roger Esteve",
   "license": "ISC",
@@ -13,9 +13,12 @@
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "express-session": "^1.16.2",
     "jade": "^1.11.0",
     "mongodb": "^3.2.7",
     "pug": "^2.0.3",
-    "serve-favicon": "^2.5.0"
+    "request": "^2.88.0",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^2.2.0"
   }
 }

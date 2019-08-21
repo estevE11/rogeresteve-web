@@ -4,11 +4,27 @@ html(lang='en')
         meta(charset='utf-8')
         title Roger Esteve
     body
-        a(href='/minesweeper') Minesweeper (WIP)
+        form#login(action="/api/login", method='post')
+            Span Username
+            input.username(type='text', name='username')
+            br
+            Span Password 
+            input.password(type='password', name='pass')
+            br
+            button.sub(type='submit') Log In
+
         br
-        a(href='/tetris') Tetris (WIP)
         br
-        br
-        a(href='/login') Log In
-        br
-        a(href='/signup') Sign In
+
+        form#newuser(action="/api/adduser", method='post')
+            Span Username
+            input.username(type='text', name='username')
+            br
+            Span Password 
+            input.password(type='password', name='pass')
+            br
+            button.sub(type='submit') Sign Up
+            p Your password will be securely stored, but just in case, we recommend not using real passwords.
+
+        p (This page is waiting for a remake using bootstrap)
+
